@@ -37,12 +37,16 @@ def capture_video_start():
   timestr = time.strftime("%Y%m%d-%H%M%S")
   filepath = f"{CAPTURE_DIR}/{timestr}.mp4"
   print(f"capturing video to {filepath}")
+  
   encoder = H264Encoder(1000000)
   encoder.output = FfmpegOutput(filepath)
   hardware_camera.start_encoder(encoder)
+  
+  vibe.pulse(fade_in_time=0.1, fade_out_time=0.5)
 
 def capture_video_end():
   hardware_camera.stop_encoder()
+  vibe.off()
   print(f"done")
 
 def capture_done():
