@@ -33,17 +33,17 @@ def capture_image():
 
   print(f"done {timestr}")
 
-def capture_video():
-  print("capturing video")
+def capture_video_start(): 
   timestr = time.strftime("%Y%m%d-%H%M%S")
-    
+  filepath = f"{CAPTURE_DIR}/{timestr}.mp4"
+  print(f"capturing video to {filepath}")
   encoder = H264Encoder(1000000)
-  encoder.output = FfmpegOutput(f"{CAPTURE_DIR}/{timestr}.mp4")
+  encoder.output = FfmpegOutput(filepath)
   hardware_camera.start_encoder(encoder)
-  time.sleep(5)
+
+def capture_video_end():
   hardware_camera.stop_encoder()
-    
-  print(f"done {timestr}")
+  print(f"done")
 
 def capture_done():
   print("ready")
@@ -51,7 +51,8 @@ def capture_done():
 app = QApplication([])
 qpicamera2 = QGlPicamera2(hardware_camera, width=800, height=600)
 
-hardware_button.when_pressed = capture_video
+hardware_button.when_pressed = capture_video_start
+hardware_button.when_released = capture_video_end
 
 window = QWidget()
 
