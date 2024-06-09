@@ -8,6 +8,7 @@ from picamera2 import Picamera2, Preview
 from gpiozero import Button, LED, PWMOutputDevice
 from libcamera import Transform
 import time
+import keyboard
 
 from picamera2.encoders import H264Encoder
 from picamera2.outputs import FfmpegOutput
@@ -19,6 +20,13 @@ cfg = hardware_camera.create_still_configuration(transform=Transform(hflip=1, vf
 hardware_button = Button(14)
 hardware_button_led = LED(18)
 vibe = PWMOutputDevice(25)
+
+
+    
+        
+    
+    
+
 
 CAPTURE_DIR = "/home/justin/Pictures/picam"
 
@@ -33,7 +41,7 @@ def capture_image():
 
   print(f"done {timestr}")
 
-def capture_video_start(): 
+def capture_video_start():  
   timestr = time.strftime("%Y%m%d-%H%M%S")
   filepath = f"{CAPTURE_DIR}/{timestr}.mp4"
   print(f"capturing video to {filepath}")
@@ -52,10 +60,18 @@ def capture_video_end():
 def capture_done():
   print("ready")
 
+def on_button_press():
+    if keyboard.is_pressed('space'):
+        capture_video_start()
+    else:
+        capture_image()
+        
+
 app = QApplication([])
 qpicamera2 = QGlPicamera2(hardware_camera, width=800, height=600)
 
-hardware_button.when_pressed = capture_video_start
+
+hardware_button.when_pressed = on_button_press
 hardware_button.when_released = capture_video_end
 
 window = QWidget()
@@ -75,8 +91,11 @@ hardware_button_led.on()
 vibe.on()
 time.sleep(1)
 vibe.off()
+
 print("ready")
 app.exec()
 
 led.off()
-    
+
+
+
