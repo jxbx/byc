@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from picamera2 import Picamera2, Preview
 from picamera2.encoders import H264Encoder
 from picamera2.outputs import FfmpegOutput
@@ -11,11 +13,6 @@ picam2.start()
 
 encoder = H264Encoder(1000000)
 encoder.output = FfmpegOutput("test1.mp4")
-picam2.start_encoder(encoder)
-time.sleep(5)
-picam2.stop_encoder()
-
-encoder.output = FfmpegOutput("test2.mp4")
 picam2.start_encoder(encoder)
 time.sleep(5)
 picam2.stop_encoder()
