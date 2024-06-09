@@ -20,13 +20,7 @@ cfg = hardware_camera.create_still_configuration(transform=Transform(hflip=1, vf
 hardware_button = Button(14)
 hardware_button_led = LED(18)
 vibe = PWMOutputDevice(25)
-
-
-    
-        
-    
-    
-
+switch = Button(21)
 
 CAPTURE_DIR = "/home/justin/Pictures/picam"
 
@@ -61,7 +55,7 @@ def capture_done():
   print("ready")
 
 def on_button_press():
-    if keyboard.is_pressed('space'):
+    if switch.is_pressed:
         capture_video_start()
     else:
         capture_image()
@@ -95,7 +89,7 @@ vibe.off()
 print("ready")
 app.exec()
 
-led.off()
+hardware_button_led.off()
 
 
 
