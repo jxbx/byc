@@ -1,0 +1,3 @@
+[Desktop Entry]
+Name = cameratest
+Exec=/usr/bin/python3 /home/justin/byc/cameratest5.py
